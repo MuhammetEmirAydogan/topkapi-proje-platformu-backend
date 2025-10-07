@@ -1,0 +1,15 @@
+# Sanal Ortam
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Django geçici veritabanı
+db.sqlite3
+
+# Hassas Bilgiler - ÇOK ÖNEMLİ
+.env
+
+# İşletim sistemi dosyaları
+.DS_Store
