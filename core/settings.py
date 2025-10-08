@@ -14,6 +14,8 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
+# --- ALLOWED_HOSTS GÜNCELLEMESİ (Bunu bir sonraki adımda yapacağız) ---
+# Şimdilik boş kalabilir, hata alırsak düzelteceğiz.
 ALLOWED_HOSTS = []
 
 
@@ -26,13 +28,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    # Üçüncü parti uygulamalar
     'rest_framework',
     'rest_framework_simplejwt',
-    'drf_spectacular', # YENİ EKLEDİK
-
-    # Bizim eklediğimiz uygulamalar
+    'drf_spectacular',
     'api',
 ]
 
@@ -40,28 +38,17 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    # YENİ EKLENDİ: Otomatik dokümantasyon şeması için
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
-# --- YENİ DOKÜMANTASYON AYARLARI ---
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Topkapı Üniversitesi Proje Platformu API',
     'DESCRIPTION': 'Öğrenciler ve akademisyenler için bitirme projesi eşleştirme platformunun backend API dokümantasyonu.',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
-# --- BİTTİ ---
 
-# ... dosyanın geri kalanı aynı ...
-# SIMPLE_JWT, MIDDLEWARE, ROOT_URLCONF, TEMPLATES, WSGI_APPLICATION, DATABASES, etc.
-# Hiçbir değişiklik yapmadan aşağıya kadar inebilirsin.
-# ...
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-    # ...
-}
+SIMPLE_JWT = { "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5), "REFRESH_TOKEN_LIFETIME": timedelta(days=1), }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -116,8 +103,18 @@ TIME_ZONE = 'Europe/Istanbul'
 USE_I18N = True
 USE_TZ = True
 
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
+
+# --- YENİ EKLENEN SATIR ---
+# collectstatic komutunun dosyaları toplayacağı klasör
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# --- BİTTİ ---
+
+# Media files (Kullanıcıların yükleyeceği dosyalar için ayarlar)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 AUTH_USER_MODEL = 'api.User'
